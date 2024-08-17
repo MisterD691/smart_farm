@@ -9,18 +9,19 @@ const schema = new Schema(
       required: true,
       unique: true
     },
+    orderDate: {
+      type: Date,
+      required: true
+    },
+    status: {
+      type: String,
+      enum: ["Soumis", "En cours", "Terminé", "Annulé"],
+      default: "Soumis",
+    },
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-    },
-    responded: {
-      type: Boolean,
-      default: false,
-    },
-    response: {
-      type: Boolean,
-      default: false,
     },
   },
   {

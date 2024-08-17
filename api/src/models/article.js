@@ -4,16 +4,29 @@ const { Schema } = mongoose;
 
 const articleSchema = new Schema(
   {
-    title: {
+    label: {
       type: String,
       required: true,
     },
-    content: {
+    description: {
       type: String,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
     },
     picture: {
       type: String,
-    }
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -2,20 +2,23 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const schema = new Schema(
+const ratingSchema = new Schema(
   {
-    quantity: {
+    stars: {
       type: Number,
       required: true,
     },
-    order: {
+    comment: {
+      type: String,
+    },
+    user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Order",
+      ref: "User",
       required: true,
     },
-    product: {
+    article: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
+      ref: "Article",
       required: true,
     },
   },
@@ -24,5 +27,5 @@ const schema = new Schema(
   }
 );
 
-const OrderProduct = mongoose.model("OrderProduct", schema);
-module.exports = OrderProduct;
+const rating = mongoose.model("Rating", ratingSchema);
+module.exports = rating;

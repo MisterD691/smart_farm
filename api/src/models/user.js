@@ -24,7 +24,7 @@ const userSchema = new Schema(
     role: {
       type: String,
       required: true,
-      enum: ["admin", "client"],
+      enum: ["Admin", "Client"],
     },
     phone: {
       unique: true,
@@ -44,26 +44,6 @@ const userSchema = new Schema(
     timestamps: true,
   },
 );
-
-// function to generate email verification token
-userSchema.methods.generateEmailVerificationToken = async function () {
-  const user = this;
-  const hashed = await bcrypt.hash(user.email, 8);
-  const token = jwt.sign(
-    {
-      token: hashed,
-    },
-    "ilovepizzastheyaremyfavoritemealandiwouldlovetoeatthemdayinandout1234567890",
-    {
-      expiresIn: 60 * 30,
-    },
-  );
-
-  user.token = token;
-  await user.save();
-
-  return token;
-};
 
 const user = mongoose.model("User", userSchema);
 module.exports = user;

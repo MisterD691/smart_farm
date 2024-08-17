@@ -4,9 +4,12 @@ const { Schema } = mongoose;
 
 const categorySchema = new Schema(
   {
-    label: {
+    name: {
       type: String,
       required: true,
+    },
+    description: {
+      type: String,
     },
   },
   {
