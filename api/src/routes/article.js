@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   add,
   getById,
+  getByCategory,
   getAll,
   update,
   remove

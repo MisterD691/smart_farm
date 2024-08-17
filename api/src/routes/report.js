@@ -8,7 +8,7 @@ const {
   getAll,
   update,
   remove
-} = require("../controllers/payment");
+} = require("../controllers/report");
 
 router.post("/add", add);
 router.get("/getById/:id", getById);

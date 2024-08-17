@@ -9,10 +9,12 @@ const app = express();
 
 const category = require("./src/routes/category");
 const article = require("./src/routes/article");
-const orderProduct = require("./src/routes/order_product");
-const product = require("./src/routes/product");
+const item = require("./src/routes/item");
+const payment = require("./src/routes/payment");
 const order = require("./src/routes/order");
 const user = require("./src/routes/user");
+const report = require("./src/routes/report");
+const rating = require("./src/routes/rating");
 
 app.use(express.static("public"));
 app.use(cors());
@@ -26,11 +28,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
 app.use("/user", user);
-app.use("/product", product);
+app.use("/payment", payment);
 app.use("/category", category);
 app.use("/article", article);
-app.use("/orderProduct", orderProduct);
+app.use("/item", item);
 app.use("/order", order);
+app.use("/report", report);
+app.use("/rating", rating);
 app.use("*", (_, res, __) => res.status(404).send("Resource not found"));
 
 const port = process.env.PORT || 3006;
