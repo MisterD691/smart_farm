@@ -90,54 +90,6 @@ exports.remove = async (req, res) => {
   }
 }
 
-exports.accept = async (req, res) => {
-  try {
-    console.log("Request to accept order...");
-    const order = await Order.findById(req.params.id);
-    if (order.responded == false) { // Order not responded
-      order.responded = true;
-      order.response = true;
-      order.save().then((doc) => doc.populate(["client"]))
-      .then(
-        (doc) => res.status(200).json({datas: doc}),
-        (reason) => {
-          console.log(reason);
-          res.status(400).json(reason);
-        }
-      );
-    } else { // Order responded already
-      return res.status(500).json({ message: "Cette commande a déjà été traitée" });
-    }
-  } catch (e) {
-    console.log("Error: " + e);
-    return res.status(500).json(e);
-  }
-}
-
-exports.reject = async (req, res) => {
-  try {
-    console.log("Request to reject order...");
-    const order = await Order.findById(req.params.id);
-    if (order.responded == false) { // Order not responded
-      order.responded = true;
-      order.response = false;
-      order.save().then((doc) => doc.populate(["client"]))
-      .then(
-        (doc) => res.status(200).json({datas: doc}),
-        (reason) => {
-          console.log(reason);
-          res.status(400).json(reason);
-        }
-      );
-    } else { // Order responded already
-      return res.status(500).json({ message: "Cette commande a déjà été traitée" });
-    }
-  } catch (e) {
-    console.log("Error: " + e);
-    return res.status(500).json({message: e});
-  }
-}
-
 function filterOrder(input) {
   var order = {
     "reference": input.reference,

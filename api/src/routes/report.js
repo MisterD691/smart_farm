@@ -4,15 +4,15 @@ const router = express.Router();
 const {
   add,
   getById,
-  getByCategory,
+  getByUser,
   getAll,
   update,
   remove
-} = require("../controllers/product");
+} = require("../controllers/payment");
 
 router.post("/add", add);
 router.get("/getById/:id", getById);
-router.get("/getByCategory/:categoryId", getByCategory);
+router.get("/getByUser/:userId", getByUser);
 router.get("/getAll", getAll);
 router.put("/update/:id", update);
 router.delete("/delete/:id", remove);
