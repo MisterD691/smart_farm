@@ -142,8 +142,8 @@ function filterOrder(input) {
   var order = {
     "reference": input.reference,
     "client": input.clientId,
-    "responded": input.responded,
-    "response": input.response
+    "orderDate": input.orderDate,
+    "status": input.status,
   };
   return order;
 }

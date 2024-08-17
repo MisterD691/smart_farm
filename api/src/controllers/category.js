@@ -74,7 +74,8 @@ exports.remove = async (req, res) => {
 
 function filterCategory(input) {
   var category = {
-    "label": input.label,
+    "name": input.name,
+    "description": input.description,
   };
   return category;
 }

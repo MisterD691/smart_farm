@@ -1,11 +1,11 @@
-const Product = require("../models/product");
+const Report = require("../models/report");
 
 exports.add = async (req, res) => {
   try {
-    console.log("Request to add product...");
-    const data = filterProduct(req.body);
-    const product = new Product(data);
-    product.save(data).then(
+    console.log("Request to add report...");
+    const data = filterReport(req.body);
+    const report = new Report(data);
+    report.save(data).then(
       (doc) => res.status(200).json({datas: doc}),
       (reason) => {
         console.log(reason);
@@ -18,19 +18,19 @@ exports.add = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    console.log("Request to get product by Id...");
-    const result = await Product.findById(req.params.id).populate("category");
+    console.log("Request to get report by Id...");
+    const result = await Report.findById(req.params.id).populate("user");
     return res.status(200).json({datas: result});
   } catch (e) {
     return res.status(500).json(e);
   }
 }
 
-exports.getByCategory = async (req, res) => {
+exports.getByUser = async (req, res) => {
   try {
-    console.log("Request to get product by category...");
-    const result = await Product.find({user: req.params.categoryId})
-    .populate("category");
+    console.log("Request to get report by user...");
+    const result = await Report.find({user: req.params.userId})
+    .populate("user");
     return res.status(200).json({datas: result});
   } catch (e) {
     console.log("Error: " + e);
@@ -40,8 +40,8 @@ exports.getByCategory = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    console.log("Request to get all products...");
-    const result = await Product.find().populate("category");
+    console.log("Request to get all reports...");
+    const result = await Report.find().populate("user");
     return res.status(200).json({datas: result});
   } catch (e) {
     console.log("Error: " + e);
@@ -51,9 +51,9 @@ exports.getAll = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    console.log("Request to update product...");
-    const data = filterProduct(req.body);
-    Product.findOneAndUpdate({ _id: req.params.id }, data).then(
+    console.log("Request to update report...");
+    const data = filterReport(req.body);
+    Report.findOneAndUpdate({ _id: req.params.id }, data).then(
       (doc) => res.status(200).json({datas: doc}),
       (reason) => {
         console.log(reason);
@@ -68,8 +68,8 @@ exports.update = async (req, res) => {
 
 exports.remove = async (req, res) => {
   try {
-    console.log("Request to delete product...");
-    Product.deleteOne({ _id: req.params.id }).then(
+    console.log("Request to delete report...");
+    Report.deleteOne({ _id: req.params.id }).then(
       (doc) => res.status(200).json({datas: doc}),
       (reason) => {
         console.log(reason);
@@ -82,14 +82,10 @@ exports.remove = async (req, res) => {
   }
 }
 
-function filterProduct(input) {
-  var product = {
-    "title": input.title,
-    "quantity": input.quantity,
-    "price": input.price,
-    "description": input.description,
-    "picture": input.picture,
-    "category": input.categoryId
+function filterReport(input) {
+  var report = {
+    "content": input.content,
+    "user": input.userId
   };
-  return product;
+  return report;
 }

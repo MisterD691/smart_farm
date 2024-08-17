@@ -1,38 +1,36 @@
-const Article = require("../models/article");
+const Payment = require("../models/payment");
 
 exports.add = async (req, res) => {
   try {
-    console.log("Request to add article...");
-    const data = filterArticle(req.body);
-    const article = new Article(data);
-    article.save().then(
+    console.log("Request to add payment...");
+    const data = filterPayment(req.body);
+    const payment = new Payment(data);
+    payment.save(data).then(
       (doc) => res.status(200).json({datas: doc}),
       (reason) => {
         console.log(reason);
         res.status(400).json(reason);
       });
   } catch (e) {
-    console.log("Error: " + e);
-    return res.status(500).json(e);
+    return res.status(500).json(e.message);
   }
 }
 
 exports.getById = async (req, res) => {
   try {
-    console.log("Request to get article by Id...");
-    const result = await Article.findById(req.params.id);
+    console.log("Request to get payment by Id...");
+    const result = await Payment.findById(req.params.id).populate("order");
     return res.status(200).json({datas: result});
   } catch (e) {
-    console.log("Error: " + e);
     return res.status(500).json(e);
   }
 }
 
-exports.getByCategory = async (req, res) => {
+exports.getByOrder = async (req, res) => {
   try {
-    console.log("Request to get article by category...");
-    const result = await Article.find({category: req.params.categoryId})
-    .populate("category");
+    console.log("Request to get payment by order...");
+    const result = await Payment.find({user: req.params.orderId})
+    .populate("order");
     return res.status(200).json({datas: result});
   } catch (e) {
     console.log("Error: " + e);
@@ -42,8 +40,8 @@ exports.getByCategory = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    console.log("Request to get all articles...");
-    const result = await Article.find();
+    console.log("Request to get all payments...");
+    const result = await Payment.find().populate("order");
     return res.status(200).json({datas: result});
   } catch (e) {
     console.log("Error: " + e);
@@ -53,9 +51,9 @@ exports.getAll = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    console.log("Request to update article...");
-    const data = filterArticle(req.body);
-    Article.findOneAndUpdate({ _id: req.params.id }, data).then(
+    console.log("Request to update payment...");
+    const data = filterPayment(req.body);
+    Payment.findOneAndUpdate({ _id: req.params.id }, data).then(
       (doc) => res.status(200).json({datas: doc}),
       (reason) => {
         console.log(reason);
@@ -70,8 +68,8 @@ exports.update = async (req, res) => {
 
 exports.remove = async (req, res) => {
   try {
-    console.log("Request to delete article...");
-    Article.deleteOne({ _id: req.params.id }).then(
+    console.log("Request to delete payment...");
+    Payment.deleteOne({ _id: req.params.id }).then(
       (doc) => res.status(200).json({datas: doc}),
       (reason) => {
         console.log(reason);
@@ -84,13 +82,11 @@ exports.remove = async (req, res) => {
   }
 }
 
-function filterArticle(input) {
-  var article = {
-    "label": input.label,
-    "description": input.description,
-    "quantity": input.quantity,
-    "price": input.price,
-    "picture": input.picture,
+function filterPayment(input) {
+  var payment = {
+    "code": input.code,
+    "paymentMode": input.paymentMode,
+    "order": input.orderId
   };
-  return article;
+  return payment;
 }
