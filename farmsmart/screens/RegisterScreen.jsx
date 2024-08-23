@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     paddingBottom: 70
   },
   image : {
-    height : 160,
-    width : 170
+    height : 190,
+    width : 190
   },
   title : {
     fontSize : 30,
