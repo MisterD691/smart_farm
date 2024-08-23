@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
-import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, MaterialCommunityIcons } from 'react-native'
+import { Alert, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, MaterialCommunityIcons } from 'react-native'
+import url from '../config';
 const logo = require("./../assets/plant.png");
 // const facebook = require("../../assets/facebook.png")
 // const linkedin = require("../../assets/linkedin.png")
@@ -10,11 +11,25 @@ const logo = require("./../assets/plant.png");
 // instagram: must_ait6
 // email : mustapha.aitigunaoun@gmail.com
 
+void function initForm() {
+  setFirstName(null);
+  setLastName(null);
+  setEmail(null);
+  setPhone(null);
+  setAddress(null);
+  setPassword(null);
+  setCPassword(null);
+}
+
 export default function RegisterScreen() {
-    const [click,setClick] = useState(false);
-    const {username,setUsername}=  useState("");
-    const {password, setPassword}=  useState("");
-    const {cPassword, setCPassword}=  useState("");
+    const [firstName, setFirstName]=  useState("");
+    const [lastName, setLastName]=  useState("");
+    const [email, setEmail]= useState("");
+    const [phone, setPhone]= useState("");
+    const [address, setAddress]= useState("");
+    const [picture, setPicture]= useState("");
+    const [password, setPassword]=  useState("");
+    const [cPassword, setCPassword]=  useState("");
     const [isPwdSecure, setIsPwdSecure] = useState(true);
     const [isCPwdSecure, setIsCPwdSecure] = useState(true);
     const navigation = useNavigation();
@@ -27,11 +42,15 @@ export default function RegisterScreen() {
         <Image source={logo} style={styles.image} resizeMode='contain' />
         <Text style={styles.title}>Création de compte</Text>
         <View style={styles.inputView}>
-            <TextInput style={styles.input} placeholder='Nom' value={username} onChangeText={setUsername} autoCorrect={false}
+            <TextInput style={styles.input} placeholder='Nom' value={firstName} onChangeText={setFirstName} autoCorrect={false}
         autoCapitalize='none' />
-        <TextInput style={styles.input} placeholder='Prénom' value={username} onChangeText={setUsername} autoCorrect={false}
+        <TextInput style={styles.input} placeholder='Prénom' value={lastName} onChangeText={setLastName} autoCorrect={false}
         autoCapitalize='none' />
-            <TextInput style={styles.input} placeholder='Email' value={password} onChangeText={setPassword} autoCorrect={false}
+            <TextInput style={styles.input} placeholder='Email' value={email} onChangeText={setEmail} autoCorrect={false}
+        autoCapitalize='none'/>
+        <TextInput style={styles.input} placeholder='Téléphone' value={phone} onChangeText={setPhone} autoCorrect={false}
+        autoCapitalize='none'/>
+        <TextInput style={styles.input} placeholder='Adresse' value={address} onChangeText={setAddress} autoCorrect={false}
         autoCapitalize='none'/>
         <TextInput style={styles.input} placeholder='Mot de passe' secureTextEntry={isPwdSecure} value={password} onChangeText={setPassword} autoCorrect={false}
         autoCapitalize='none'/>
@@ -51,7 +70,37 @@ export default function RegisterScreen() {
         </View> */}
 
         <View style={styles.buttonView}>
-            <Pressable style={styles.button} onPress={() => navigation.navigate('ProductScreen')}>
+            <Pressable style={styles.button} onPress={() => {
+              let user = {
+                "firstName": firstName,
+                "lastName": lastName,
+                "email": email,
+                "password": password,
+                "role": "Client",
+                "phone": phone,
+                "address": address,
+                "picture": null,
+              };
+              fetch(`${url}/user/signup`, {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+              })
+              .then(response => response.json())
+              .then(json => {
+                console.log(json);
+                if (json["datas"]) {
+                  Alert.alert("Enregistrement effectué avec succès !")
+                  navigation.navigate('LoginScreen');
+                }
+              })
+              .catch(error => {
+                console.error(error);
+              });
+            }}>
                 <Text style={styles.buttonText}>Créer compte</Text>
             </Pressable>
         </View>
@@ -69,7 +118,6 @@ export default function RegisterScreen() {
     </ScrollView>
   )
 }
-
 
 const styles = StyleSheet.create({
   container : {

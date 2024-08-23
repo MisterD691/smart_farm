@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
 import { Alert, Button, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native'
+import url from '../config';
 const logo = require("./../assets/plant.png");
 // const facebook = require("../../assets/facebook.png")
 // const linkedin = require("../../assets/linkedin.png")
@@ -12,8 +13,8 @@ const logo = require("./../assets/plant.png");
 
 export default function LoginScreen() {
     const [click, setClick] = useState(false);
-    const {username, setUsername}=  useState("");
-    const {password, setPassword}=  useState("");
+    const [email, setEmail]=  useState("");
+    const [password, setPassword]=  useState("");
     // const [isPwdSecure, setIsPwdSecure] = useState(true);
     const navigation = useNavigation();
 
@@ -24,7 +25,7 @@ export default function LoginScreen() {
         <Image source={logo} style={styles.image} resizeMode='contain' />
         <Text style={styles.title}>Connexion</Text>
         <View style={styles.inputView}>
-            <TextInput style={styles.input} placeholder='Email' value={username} onChangeText={setUsername} autoCorrect={false}
+            <TextInput style={styles.input} placeholder='Email' value={email} onChangeText={setEmail} autoCorrect={false}
         autoCapitalize='none' />
             <TextInput style={styles.input} placeholder='Mot de passe' secureTextEntry value={password} onChangeText={setPassword} autoCorrect={false}
         autoCapitalize='none'/>
@@ -42,7 +43,34 @@ export default function LoginScreen() {
         </View> */}
 
         <View style={styles.buttonView}>
-            <Pressable style={styles.button} onPress={() => navigation.navigate('ProductScreen')}>
+            <Pressable style={styles.button} onPress={() => {
+              let user = {
+                "email": email,
+                "password": password,
+              };
+              console.log(user);
+              fetch(`${url}/user/signin`, {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+              })
+              .then(response => response.json())
+              .then(json => {
+                console.log(json);
+                if (json["datas"]) {
+                  Alert.alert("Connexion réussie !")
+                  navigation.navigate('ProductScreen');
+                } else {
+                  Alert.alert("Email ou mot de passe incorrect !");
+                }
+              })
+              .catch(error => {
+                console.error(error);
+              });
+              }}>
                 <Text style={styles.buttonText}>Connexion</Text>
             </Pressable>
             {/* <Text style={styles.optionsText}>OR LOGIN WITH</Text> */}

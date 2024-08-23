@@ -24,6 +24,7 @@ exports.signIn = async (req, res) => {
       email: req.body.email,
       password: req.body.password
     });
+    console.log(user);
     return res.status(200).json({datas: user});
   } catch (e) {
     return res.status(500).json(e);
