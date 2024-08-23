@@ -13,15 +13,14 @@ export default function Navbar(){
                 <Icon.Heart color='black' />
             </TouchableOpacity>
             <TouchableOpacity className="w-14 h-14 rounded-full bg-black items-center justify-center"
-            onPress={() => navigation.navigate("SearchScreen")}
-            >
-                <Icon.Search color='white' />
+            onPress={() => navigation.navigate("ProductFormScreen")}>
+                <Icon.Plus color='white' />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('CartScreen')}>
                 <Icon.ShoppingBag color='black'  />
             </TouchableOpacity>
-            <TouchableOpacity>
-                <Icon.User color='black' />
+            <TouchableOpacity onPress={() => navigation.navigate('CategoryFormScreen')}>
+                <Icon.Settings color='black' />
             </TouchableOpacity>
         </View>
     )

@@ -5,7 +5,7 @@ import CardProduct from '../components/CardProduct'
 import Navbar from '../components/Navbar'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
-import { plantData } from '../data/plantData'
+import { articles } from '../data/articles'
 
 export default function ProductScreen() {
     const navigation = useNavigation();
@@ -52,11 +52,11 @@ export default function ProductScreen() {
         </View>
         <View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="space-x-4" contentContainerStyle={{gap: 10}}>
-                {
-                    plantData.map((plant, key) => (
-                        <CardProduct key={plant.id} nom={plant.name} prix={plant.price} image={plant.image} description={plant.description} />
-                    ))
-                }
+            { articles.length > 0 ?
+                articles.map((article, key) => (
+                    <CardProduct key={article.id} nom={article.name} prix={article.price} image={article.image} description={article.description} />
+                )) : null
+            }
             </ScrollView>
         </View>
         <Navbar />

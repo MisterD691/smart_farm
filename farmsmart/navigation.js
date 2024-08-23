@@ -11,6 +11,8 @@ import SearchScreen from './screens/SearchScreen';
 import FavouriteScreen from './screens/FavouriteScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import ProductFormScreen from './screens/product_form';
+import CategoryFormScreen from './screens/CategoryFormScreen';
 
 const Navigation = () => {
     const stack = createStackNavigator();
@@ -25,6 +27,8 @@ const Navigation = () => {
                 <stack.Screen name="FavouriteScreen" component={FavouriteScreen} />
                 <stack.Screen name="LoginScreen" component={LoginScreen} />
                 <stack.Screen name="RegisterScreen" component={RegisterScreen} />
+                <stack.Screen name="ProductFormScreen" component={ProductFormScreen} />
+                <stack.Screen name="CategoryFormScreen" component={CategoryFormScreen} />
             </stack.Navigator>
             <StatusBar style='auto' />
         </NavigationContainer>

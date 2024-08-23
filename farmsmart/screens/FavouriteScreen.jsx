@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import * as Icon from 'react-native-feather'
 import CardProduct from '../components/CardProduct'
-import { plantData } from '../data/plantData'
+import { articles } from '../data/articles'
 
 export default function FavouriteScreen() {
     const navigation = useNavigation();
@@ -18,10 +18,10 @@ export default function FavouriteScreen() {
             <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} className="space-x-4" contentContainerStyle={{gap: 10}}>
-            {
-                plantData.map((plant, key) => (
+            {articles.length > 0 ?
+                articles.map((plant, key) => (
                     <CardProduct key={plant.id} nom={plant.name} prix={plant.price} image={plant.image} description={plant.description} bigCart='bigCart' />
-                ))
+                )) : null
             }
         </ScrollView>
     </SafeAreaView>

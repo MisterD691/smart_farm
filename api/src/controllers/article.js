@@ -91,6 +91,7 @@ function filterArticle(input) {
     "quantity": input.quantity,
     "price": input.price,
     "picture": input.picture,
+    "category": input.categoryId,
   };
   return article;
 }

@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Icon from 'react-native-feather'
 import ProductSearch from '../components/ProductSearch'
 import { useNavigation } from '@react-navigation/native'
-import { plantData } from '../data/plantData'
+import { articles } from '../data/articles'
 
 export default function SearchScreen() {
   const navigation = useNavigation();
@@ -32,12 +32,12 @@ export default function SearchScreen() {
       <Text>Resultat de la recherche</Text>
       <View>
         <ScrollView showsHorizontalScrollIndicator={false}>
-          {
-            plantData.map((plant, key) => {
+          { articles.length > 0 ?
+            articles.map((plant, key) => {
               if(plant.name.toString().includes(search)){
                 return <ProductSearch key={plant.id} nom={plant.name} image={plant.image} />
               }
-            })
+            }) : null
           }
         </ScrollView>
       </View>
