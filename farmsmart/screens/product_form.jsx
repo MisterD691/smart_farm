@@ -20,6 +20,7 @@ export default function ProductFormScreen() {
     const [quantity, setQuantity]= useState("");
     const [price, setPrice]= useState("");
     const [picture, setPicture]= useState("");
+    const [categoryId , setCategoryId] = useState(null)
     const navigation = useNavigation();
 
   return (
@@ -46,7 +47,8 @@ export default function ProductFormScreen() {
           <TextInput style={styles.input} placeholder='Prix' value={price} onChangeText={setPrice} autoCorrect={false}
           autoCapitalize='none'/>
           </View>
-          <Dropdown/>
+          <Dropdown onValueChange={setCategoryId}/>
+          {/* {selectedValue && <Text> ce aue tu as selectionnee est : {selectedValue}</Text>} */}
         {/* <View style={styles.rememberView}>
             <View style={styles.switch}>
                 <Switch  value={click} onValueChange={setClick} trackColor={{true : "green" , false : "gray"}} />
@@ -67,6 +69,7 @@ export default function ProductFormScreen() {
                 "quantity": quantity,
                 "price": price,
                 "picture": null,
+                "categoryId": categoryId,
               };
               fetch(`${url}/article/add`, {
                 method: 'POST',
@@ -81,13 +84,19 @@ export default function ProductFormScreen() {
                 console.log(json);
                 if (json["datas"]) {
                   Alert.alert("Enregistrement effectué avec succès !");
+                  setLabel(null);
+                  setDescription(null);
+                  setQuantity(null);
+                  setPrice(null);
+                  setPicture(null);
+                  setCategoryId(null);
                 }
               })
               .catch(error => {
                 console.error(error);
               });
             }}>
-                <Text style={styles.buttonText}>Ajouter un article</Text>
+                <Text style={styles.buttonText}>Créer un article</Text>
             </Pressable>
         </View>
         

@@ -1,5 +1,7 @@
 import url from '../config';
+import { useEffect, useState } from 'react';
 
+const [options, setOptions] = useState([]);
 // fetch(`${url}/article/getAll`)
 //   .then(response => response.json())
 //   .then(json => {
@@ -13,6 +15,26 @@ import url from '../config';
 //   .catch(error => {
 //     console.error(error);
 //   });
+useEffect (() => {
+    fetch(`${url}/category/getAll`)
+    .then(response => response.json())
+    .then(json => {
+      if (json["datas"]) {
+        const categories = json["datas"];
+        const tempCats = [];
+        for (let cat of categories) {
+          tempCats.push({
+            label: cat.name,
+            value: cat._id,
+          });
+        }
+        setOptions(tempCats);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}, []);
 
 const getCategories = async () => {
     try {

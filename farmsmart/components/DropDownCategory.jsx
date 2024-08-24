@@ -1,37 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { View, Text, StyleSheet } from 'react-native';
 import url from '../config';
 
-const Dropdown = () => {
-  const [selectedValue, setSelectedValue] = useState(null);
+const Dropdown = ({onValueChange}) => {
+  const [options, setOptions] = useState([]);
 
   const placeholder = {
     label: 'Choisissez la catégorie...',
     value: null,
   };
 
-  const [options, setOptions] = useState([]);
-
+  useEffect (() => {
   fetch(`${url}/category/getAll`)
   .then(response => response.json())
   .then(json => {
-    console.log(json["datas"]);
     if (json["datas"]) {
       const categories = json["datas"];
-      options = [];
+      const tempCats = [];
       for (let cat of categories) {
-        options.push({
+        tempCats.push({
           label: cat.name,
           value: cat._id,
         });
       }
-      // setOptions(options);
+      setOptions(tempCats);
     }
   })
   .catch(error => {
     console.error(error);
   });
+  }, []);
 
   return (
     <View>
@@ -39,8 +38,7 @@ const Dropdown = () => {
       <RNPickerSelect
         placeholder={placeholder}
         items={options}
-        onValueChange={(value) => setSelectedValue(value)}
-        value={selectedValue}
+        onValueChange={onValueChange}
         style={styles.input}
       />
       {/* {selectedValue && <Text>Sélectionné: {selectedValue}</Text>} */}

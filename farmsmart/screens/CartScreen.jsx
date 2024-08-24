@@ -41,7 +41,7 @@ export default function CartScreen({ route }) {
               <Text className="text-lg font-bold">$710.00</Text>
             </View>
             <TouchableOpacity className="p-3 bg-[#51AE99] rounded-full">
-              <Text className="text-white text-center text-lg">Acheter</Text>
+              <Text className="text-white text-center text-lg">Commander</Text>
             </TouchableOpacity>
           </View>
         </View>
